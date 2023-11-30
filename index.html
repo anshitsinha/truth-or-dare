@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="./favicon.jpg" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css">
+  <title>Truth or Dare?</title>
+</head>
+<body>
+  
+  <div class="container">
+    <div class="gamestarter">
+      <h3>Please enter the names of players, separated by commas.</h3>
+      <textarea placeholder="Enter the names of players here..." class="txtarea" id="textarea"></textarea>
+    </div>
+    <button class="spin glass-button" id="spin" onclick="startRandomSelect()">Spin the bottle!</button>
+    
+    <div id="players"></div>
+
+    <div class="message" id="message" style="display: none;"></div>
+
+    <div class="options">
+      <p class="selected" id="selected-option"></p>
+      <div class="tru">
+        <button class="optionbtn glass-button" class="truth" onclick="selectOption('truth')">Truth</button>
+        <button class="optionbtn glass-button" class="dare" onclick="selectOption('dare')">Dare</button>
+        
+      </div>
+      <p class="task"></p>
+      <button class="taskdone optionbtn"></button>
+    </div>
+  </div>
+
+<script src="./script.js"></script>
+
+</body>
+</html>
+
