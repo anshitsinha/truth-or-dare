@@ -41,3 +41,70 @@ function createPlayers(input) {
     });
 }
 
+// Function to perform random player selection
+function randomSelect() {
+    const times = 30;
+
+    const interval = setInterval(() => {
+        const randomPlayer = pickRandomPlayer();
+
+        if (randomPlayer !== undefined) {
+            highlightPlayer(randomPlayer);
+
+            setTimeout(() => {
+                unHighlightPlayer(randomPlayer);
+            }, 100);
+        }
+    }, 100);
+
+    setTimeout(() => {
+        clearInterval(interval);
+
+        setTimeout(() => {
+            const randomPlayer = pickRandomPlayer();
+
+            highlightPlayer(randomPlayer);
+            messageDiv.innerText = `Bottle landed on you: ${randomPlayer.innerText}. Choose Truth or Dare.`;
+        }, 100);
+    }, times * 100);
+}
+
+// Function to pick a random player
+function pickRandomPlayer() {
+    const players = document.querySelectorAll('.player');
+    return players[Math.floor(Math.random() * players.length)];
+}
+
+// Function to highlight a player
+function highlightPlayer(player) {
+    player.classList.add('highlight');
+}
+
+// Function to unhighlight a player
+function unHighlightPlayer(player) {
+    player.classList.remove('highlight');
+}
+
+// Event listener for starting the random selection on button click
+spin.addEventListener('click', function startRandomSelection() {
+    validateAndStartRandomSelect();
+    randomSelect();
+
+    setTimeout(() => {
+        tru.style.display = 'flex';
+        messageDiv.style.display = 'flex';
+        gamestarter.style.display = 'none';
+        spin.style.display = 'none';
+    }, 30 * 100);
+});
+
+// Function to validate input and start random selection
+function validateAndStartRandomSelect() {
+    const inputText = textarea.value.trim();
+
+    if (inputText === '') {
+        alert("Player names can't be empty");
+        location.reload();
+        return;
+    }
+}
