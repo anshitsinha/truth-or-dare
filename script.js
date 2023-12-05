@@ -108,3 +108,58 @@ function validateAndStartRandomSelect() {
         return;
     }
 }
+
+// Function to handle Truth or Dare option selection
+function selectOption(option) {
+    const selectedOption = document.getElementById('selected-option');
+    const players = document.querySelectorAll('.player');
+    const selectedPlayer = Array.from(players).find(player => player.classList.contains('highlight'));
+
+    if (selectedPlayer) {
+        selectedOption.innerText = ` ${selectedPlayer.innerText} selected ${option} `;
+
+        const apiUrl = option === 'truth'
+            ? 'https://api.truthordarebot.xyz/v1/truth'
+            : 'https://api.truthordarebot.xyz/v1/dare';
+
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.question) {
+                    var taskFor = option === 'truth' ? 'Question for' : 'Dare for';
+
+                    task.innerText = `${taskFor} ${selectedPlayer.innerText}: ${data.question}`;
+                    task.style.display = 'flex';
+                    tru.style.display = 'none';
+                    messageDiv.style.display = 'none';
+
+                    if (option === 'truth') {
+                        taskdone.innerText = 'Answered';
+                    } else {
+                        taskdone.innerText = 'Dare Completed';
+                    }
+                    taskdone.style.display = 'flex';
+                } else {
+                    throw new Error('Unexpected API response format');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                task.innerText = 'Error fetching question from the API';
+                task.style.display = 'block';
+            });
+    }
+}
+
+// Event listener for completing a task
+taskdone.addEventListener('click', function startRandomSelection() {
+    spin.style.display = 'flex';
+    taskdone.style.display = 'none';
+    task.style.display = 'none';
+    selected.style.display = 'none';
+});
